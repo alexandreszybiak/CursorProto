@@ -5,6 +5,8 @@ using UnityEngine;
 public class PSBoundariesOrthographic : MonoBehaviour
 {
     public Camera MainCamera;
+    public GameObject sprite;
+
     private Vector2 screenBounds;
     private float objectWidth;
     private float objectHeight;
@@ -12,15 +14,15 @@ public class PSBoundariesOrthographic : MonoBehaviour
     // Use this for initialization
     void Start() {
         screenBounds = MainCamera.ScreenToWorldPoint (new Vector3 (Screen.width, Screen.height, MainCamera.transform.position.z));
-        objectWidth = transform.GetComponent<SpriteRenderer> ().bounds.extents.x; //extents = size of width / 2
-        objectHeight = transform.GetComponent<SpriteRenderer> ().bounds.extents.y; //extents = size of height / 2
+        objectWidth = sprite.GetComponent<SpriteRenderer> ().bounds.extents.x; //extents = size of width / 2
+        objectHeight = sprite.GetComponent<SpriteRenderer> ().bounds.extents.y; //extents = size of height / 2
     }
 
     // Update is called once per frame
     void LateUpdate() {
         Vector3 viewPos = transform.position;
-        viewPos.x = Mathf.Clamp (viewPos.x, screenBounds.x * -1 + objectWidth, screenBounds.x - objectWidth);
-        viewPos.y = Mathf.Clamp (viewPos.y, screenBounds.y * -1 + objectHeight, screenBounds.y - objectHeight);
+        viewPos.x = Mathf.Clamp (viewPos.x, screenBounds.x * -1 + objectWidth - sprite.transform.localPosition.x, screenBounds.x - objectWidth - sprite.transform.localPosition.x);
+        viewPos.y = Mathf.Clamp (viewPos.y, screenBounds.y * -1 + objectHeight - sprite.transform.localPosition.y, screenBounds.y - objectHeight - sprite.transform.localPosition.y);
         transform.position = viewPos;
     }
 }
