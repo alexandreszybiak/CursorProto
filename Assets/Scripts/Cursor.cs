@@ -10,6 +10,7 @@ public class Cursor : MonoBehaviour
     MyGameActions gameActions;
     public Transform initialTarget;
     public bool snap = false;
+    public ContactFilter2D filter2D;
 
     private Vector2 movement;
     private Vector2 targetPosition;
@@ -20,13 +21,14 @@ public class Cursor : MonoBehaviour
 
     void Awake()
     {
-        targetPosition = new Vector2(0,0);
+        targetPosition = new Vector2(initialTarget.position.x, initialTarget.position.y);
 
         gameActions = new MyGameActions ();
 
         gameActions.Player.Move.performed += ctx => movement = ctx.ReadValue<Vector2> ();
         gameActions.Player.Move.canceled += ctx => movement = Vector2.zero;
         gameActions.Player.MoveSnap.performed += ctx => FindNearestNeighbour(ctx);
+        gameActions.Player.ToggleSnap.performed += ctx => ToggleSnap ();
     }
 
     private void OnEnable() {
@@ -45,6 +47,7 @@ public class Cursor : MonoBehaviour
         else {
             transform.Translate (new Vector3 (movement.x, movement.y, 0) * speed * Time.deltaTime);
         }
+
         
     }
 
@@ -53,13 +56,41 @@ public class Cursor : MonoBehaviour
 
         print (direction);
 
-        RaycastHit2D hit = Physics2D.Raycast (transform.position, Vector2.right);
-        Debug.DrawRay (transform.position, direction * 100, Color.red, 20.0f, false);
-        if ( hit.collider != null) {
-            //print (currentItem.name);
-            if(hit.collider != currentItem) {
-                print (hit.distance);
+        RaycastHit2D[] hits = new RaycastHit2D[2];
+
+        Vector2 startPosition = new Vector2 (transform.position.x, transform.position.y);
+
+        int totalObjectsHit = Physics2D.Raycast (startPosition, direction, filter2D, hits);
+        RaycastHit2D hit;
+
+        //Iterate the objects hit by the laser
+        for ( int i = 0; i < totalObjectsHit; i++ ) {
+            hit = hits[i];
+            //Do something
+            if ( hit.collider != null ) {
+                if(hit.collider != currentItem ) {
+                    targetPosition = new Vector2 (hit.transform.position.x, hit.transform.position.y);
+                }
             }
         }
+        /*
+        int numResults = 2;
+        ContactFilter2D = new ContactFilter2D ();
+        RaycastHit2D[] results;
+        RaycastHit2D hit = Physics2D.Raycast (startPosition, direction, Mathf.Infinity, );
+        if ( hit.collider != null) {
+            if(currentItem != null) print (currentItem.name);
+            if(hit.collider != currentItem) {
+                targetPosition = new Vector2(hit.transform.position.x,hit.transform.position.y);
+            }
+        }
+
+        Debug.DrawRay (new Vector2 (transform.position.x, transform.position.y), Vector2.left, Color.red, 0.5f);
+        */
+
+    }
+
+    private void ToggleSnap() {
+        snap = !snap;
     }
 }

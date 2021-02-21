@@ -33,6 +33,14 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""ToggleSnap"",
+                    ""type"": ""Button"",
+                    ""id"": ""3c939b2d-45fe-4361-a0a9-054f6f3ebaa0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -51,7 +59,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                     ""name"": ""2D Vector"",
                     ""id"": ""c04bc33b-8a23-4f18-ac2c-2157bc594d00"",
                     ""path"": ""2DVector"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveSnap"",
@@ -101,6 +109,17 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                     ""action"": ""MoveSnap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2ce9217-dc87-4459-8cfb-356525f5c4e5"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ToggleSnap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -408,6 +427,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_MoveSnap = m_Player.FindAction("MoveSnap", throwIfNotFound: true);
+        m_Player_ToggleSnap = m_Player.FindAction("ToggleSnap", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -471,12 +491,14 @@ public class @MyGameActions : IInputActionCollection, IDisposable
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_MoveSnap;
+    private readonly InputAction m_Player_ToggleSnap;
     public struct PlayerActions
     {
         private @MyGameActions m_Wrapper;
         public PlayerActions(@MyGameActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @MoveSnap => m_Wrapper.m_Player_MoveSnap;
+        public InputAction @ToggleSnap => m_Wrapper.m_Player_ToggleSnap;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -492,6 +514,9 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                 @MoveSnap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveSnap;
                 @MoveSnap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveSnap;
                 @MoveSnap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMoveSnap;
+                @ToggleSnap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnToggleSnap;
+                @ToggleSnap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnToggleSnap;
+                @ToggleSnap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnToggleSnap;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -502,6 +527,9 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                 @MoveSnap.started += instance.OnMoveSnap;
                 @MoveSnap.performed += instance.OnMoveSnap;
                 @MoveSnap.canceled += instance.OnMoveSnap;
+                @ToggleSnap.started += instance.OnToggleSnap;
+                @ToggleSnap.performed += instance.OnToggleSnap;
+                @ToggleSnap.canceled += instance.OnToggleSnap;
             }
         }
     }
@@ -615,6 +643,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
     {
         void OnMove(InputAction.CallbackContext context);
         void OnMoveSnap(InputAction.CallbackContext context);
+        void OnToggleSnap(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

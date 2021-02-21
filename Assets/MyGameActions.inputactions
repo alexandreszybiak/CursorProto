@@ -20,6 +20,14 @@
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "ToggleSnap",
+                    "type": "Button",
+                    "id": "3c939b2d-45fe-4361-a0a9-054f6f3ebaa0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -38,7 +46,7 @@
                     "name": "2D Vector",
                     "id": "c04bc33b-8a23-4f18-ac2c-2157bc594d00",
                     "path": "2DVector",
-                    "interactions": "",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "MoveSnap",
@@ -88,6 +96,17 @@
                     "action": "MoveSnap",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "b2ce9217-dc87-4459-8cfb-356525f5c4e5",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleSnap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
