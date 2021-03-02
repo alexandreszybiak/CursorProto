@@ -45,9 +45,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caf612cbf1ae5084ca26c36f233f67ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.25
+  speed: 16
   initialTarget: {fileID: 0}
   snap: 0
+  filter2D:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  currentItem: {fileID: 0}
+  managerPage: {fileID: 0}
+  playerIndex: 0
 --- !u!114 &4853128353111479777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,7 +77,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 270b1da2a774c3c41a49dac8b83b8465, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainCamera: {fileID: 0}
   sprite: {fileID: 7517481317110026391}
 --- !u!1 &7517481317110026391
 GameObject:

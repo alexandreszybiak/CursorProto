@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.InputSystem.InputAction;
 
 public class Cursor : MonoBehaviour
 {
     // Start is called before the first frame update
     public float speed = 2f;
-    MyGameActions gameActions;
     public Transform initialTarget;
     public bool snap = false;
     public ContactFilter2D filter2D;
@@ -18,28 +18,18 @@ public class Cursor : MonoBehaviour
     public FocusableItem currentItem = null;
 
     public ManagerPage managerPage = null;
-    
+    [SerializeField]
+    private int playerIndex = 0;
 
 
-    void Awake()
-    {
-        targetPosition = new Vector2(initialTarget.position.x, initialTarget.position.y);
 
-        gameActions = new MyGameActions ();
-
-        gameActions.Player.Move.performed += ctx => movement = ctx.ReadValue<Vector2> ();
-        gameActions.Player.Move.canceled += ctx => movement = Vector2.zero;
-        gameActions.Player.MoveSnap.performed += ctx => FindNearestNeighbour(ctx);
-        gameActions.Player.ToggleSnap.performed += ctx => ToggleSnap ();
-        gameActions.Player.Validate.performed += ctx => GoToNextPage ();
-    }
-
-    private void OnEnable() {
-        gameActions.Player.Enable ();
-    }
-
-    private void OnDisable() {
-        gameActions.Player.Disable ();
+    void Awake() {
+        if ( initialTarget != null ) {
+            targetPosition = new Vector2 (initialTarget.position.x, initialTarget.position.y);
+        }
+        else {
+        targetPosition = Vector2.zero;
+        }
     }
 
     private void Update() {
@@ -53,10 +43,36 @@ public class Cursor : MonoBehaviour
 
         transform.position = new Vector3(transform.position.x, transform.position.y, -2);
 
-    }
+        currentItem = null;
+        Collider2D[] results = new Collider2D[2];
 
-    private void FindNearestNeighbour(InputAction.CallbackContext context) {
-        Vector2 direction = context.ReadValue<Vector2> ();
+        int numResult = Physics2D.OverlapPoint (new Vector2 (transform.position.x, transform.position.y), filter2D, results);
+        
+        if ( numResult > 0 ) {
+            FocusableItem item = results[0].gameObject.GetComponent<FocusableItem>();
+            currentItem = item;
+            item.Focus (true);
+        }
+
+    }
+    public void ToggleSnap() {
+        snap = !snap;
+        if ( snap ) {
+            LookAroundForSnap ();
+        }
+    }
+    public void LookAroundForSnap() {
+        FindNearestNeighbour (Vector2.left);
+        FindNearestNeighbour (Vector2.right);
+        FindNearestNeighbour (Vector2.up);
+        FindNearestNeighbour (Vector2.down);
+        FindNearestNeighbour (Vector2.left + Vector2.up);
+        FindNearestNeighbour (Vector2.left + Vector2.down);
+        FindNearestNeighbour (Vector2.right + Vector2.up);
+        FindNearestNeighbour (Vector2.right + Vector2.down);
+    }
+    public void FindNearestNeighbour(Vector2 inputDirection, bool ignoreCurrentItem = false) {
+        Vector2 direction = inputDirection;
 
 #if UNITY_WEBGL
         direction.y *= -1;
@@ -68,14 +84,15 @@ public class Cursor : MonoBehaviour
 
         int totalObjectsHit = Physics2D.Raycast (startPosition, direction, filter2D, hits);
         RaycastHit2D hit;
-
+        print ("Hits found = " + totalObjectsHit);
         //Iterate the objects hit by the laser
         for ( int i = 0; i < totalObjectsHit; i++ ) {
             hit = hits[i];
             //Do something
             if ( hit.collider != null ) {
-                if(hit.collider != currentItem ) {
+                if(hit.collider.gameObject.GetComponent<FocusableItem>() != currentItem || ignoreCurrentItem == false) {
                     targetPosition = new Vector2 (hit.transform.position.x, hit.transform.position.y);
+                    break;
                 }
             }
         }
@@ -96,11 +113,17 @@ public class Cursor : MonoBehaviour
 
     }
 
-    private void ToggleSnap() {
-        snap = !snap;
+    public void SetInputVector(Vector2 direction) {
+        movement = direction;
     }
 
-    private void GoToNextPage() {
-        managerPage.GotoNextPage ();
+    public int GetPlayerIndex() {
+        return playerIndex;
+    }
+
+    public void GotoNextPage() {
+        if(managerPage != null ) {
+            managerPage.GotoNextPage ();
+        }
     }
 }

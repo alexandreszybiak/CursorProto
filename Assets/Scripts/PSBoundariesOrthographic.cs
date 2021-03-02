@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PSBoundariesOrthographic : MonoBehaviour
 {
-    public Camera MainCamera;
+    private Camera MainCamera;
     public GameObject sprite;
 
     private Vector2 screenBounds;
@@ -13,6 +13,7 @@ public class PSBoundariesOrthographic : MonoBehaviour
 
     // Use this for initialization
     void Start() {
+        MainCamera = Camera.main;
         screenBounds = MainCamera.ScreenToWorldPoint (new Vector3 (Screen.width, Screen.height, MainCamera.transform.position.z));
         objectWidth = sprite.GetComponent<SpriteRenderer> ().bounds.extents.x; //extents = size of width / 2
         objectHeight = sprite.GetComponent<SpriteRenderer> ().bounds.extents.y; //extents = size of height / 2

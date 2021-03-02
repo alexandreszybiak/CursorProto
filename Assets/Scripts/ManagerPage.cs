@@ -38,5 +38,9 @@ public class ManagerPage : MonoBehaviour
         }
         page = pages[currentPage];
         page.SetActive (true);
+        GameObject cursor = GameObject.Find("Cursor P1");
+        cursor.SetActive (false);
+        cursor.SetActive (true);
+        cursor.GetComponent<Cursor> ().LookAroundForSnap ();
     }
 }
