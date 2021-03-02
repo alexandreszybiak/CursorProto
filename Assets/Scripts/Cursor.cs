@@ -16,6 +16,8 @@ public class Cursor : MonoBehaviour
     private Vector2 targetPosition;
 
     public FocusableItem currentItem = null;
+
+    public ManagerPage managerPage = null;
     
 
 
@@ -29,6 +31,7 @@ public class Cursor : MonoBehaviour
         gameActions.Player.Move.canceled += ctx => movement = Vector2.zero;
         gameActions.Player.MoveSnap.performed += ctx => FindNearestNeighbour(ctx);
         gameActions.Player.ToggleSnap.performed += ctx => ToggleSnap ();
+        gameActions.Player.Validate.performed += ctx => GoToNextPage ();
     }
 
     private void OnEnable() {
@@ -95,5 +98,9 @@ public class Cursor : MonoBehaviour
 
     private void ToggleSnap() {
         snap = !snap;
+    }
+
+    private void GoToNextPage() {
+        managerPage.GotoNextPage ();
     }
 }

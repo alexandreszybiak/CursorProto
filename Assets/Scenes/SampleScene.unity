@@ -208,7 +208,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 97938084}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -2.924974, y: -2.3218794, z: 2.9546502}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1947731206}
@@ -342,7 +342,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &294970136
 Transform:
   m_ObjectHideFlags: 0
@@ -351,7 +351,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 294970135}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.924974, y: 2.3218794, z: -1.9546502}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 97938085}
@@ -1222,7 +1222,7 @@ MonoBehaviour:
   pages:
   - {fileID: 294970135}
   - {fileID: 1177499345}
-  currentPage: 1
+  currentPage: 0
 --- !u!1 &1131221797
 GameObject:
   m_ObjectHideFlags: 0
@@ -1348,7 +1348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1177499346
 Transform:
   m_ObjectHideFlags: 0
@@ -1902,7 +1902,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Press Y to toggle snap/free mode
+  m_Text: 'Press Y to toggle snap/free mode
+
+    Press A to go to the next page'
 --- !u!222 &1961546973
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2006,6 +2008,10 @@ PrefabInstance:
       propertyPath: speed
       value: 16
       objectReference: {fileID: 0}
+    - target: {fileID: 4853128353111479778, guid: c5312ab551dff1a46bb27f1613aa5b92, type: 3}
+      propertyPath: managerPage
+      value: 
+      objectReference: {fileID: 1122675754}
     - target: {fileID: 4853128353111479778, guid: c5312ab551dff1a46bb27f1613aa5b92, type: 3}
       propertyPath: initialTarget
       value: 

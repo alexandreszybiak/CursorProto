@@ -41,6 +41,14 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Validate"",
+                    ""type"": ""Button"",
+                    ""id"": ""6d93bf9c-7883-4e4d-b01a-8a740ccec1bf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -118,6 +126,17 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""ToggleSnap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d733ddc7-c39d-450b-8fd9-e0a47e33bea4"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Validate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -428,6 +447,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_MoveSnap = m_Player.FindAction("MoveSnap", throwIfNotFound: true);
         m_Player_ToggleSnap = m_Player.FindAction("ToggleSnap", throwIfNotFound: true);
+        m_Player_Validate = m_Player.FindAction("Validate", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -492,6 +512,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_MoveSnap;
     private readonly InputAction m_Player_ToggleSnap;
+    private readonly InputAction m_Player_Validate;
     public struct PlayerActions
     {
         private @MyGameActions m_Wrapper;
@@ -499,6 +520,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @MoveSnap => m_Wrapper.m_Player_MoveSnap;
         public InputAction @ToggleSnap => m_Wrapper.m_Player_ToggleSnap;
+        public InputAction @Validate => m_Wrapper.m_Player_Validate;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -517,6 +539,9 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                 @ToggleSnap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnToggleSnap;
                 @ToggleSnap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnToggleSnap;
                 @ToggleSnap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnToggleSnap;
+                @Validate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnValidate;
+                @Validate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnValidate;
+                @Validate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnValidate;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -530,6 +555,9 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                 @ToggleSnap.started += instance.OnToggleSnap;
                 @ToggleSnap.performed += instance.OnToggleSnap;
                 @ToggleSnap.canceled += instance.OnToggleSnap;
+                @Validate.started += instance.OnValidate;
+                @Validate.performed += instance.OnValidate;
+                @Validate.canceled += instance.OnValidate;
             }
         }
     }
@@ -644,6 +672,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnMoveSnap(InputAction.CallbackContext context);
         void OnToggleSnap(InputAction.CallbackContext context);
+        void OnValidate(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

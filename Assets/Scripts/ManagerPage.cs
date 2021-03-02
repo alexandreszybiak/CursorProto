@@ -28,4 +28,15 @@ public class ManagerPage : MonoBehaviour
         GameObject newPage = pages[currentPage];
         newPage.SetActive(true);
     }
+
+    public void GotoNextPage() {
+        GameObject page = pages[currentPage];
+        page.SetActive (false);
+        currentPage += 1;
+        if(currentPage >= pages.Length ) {
+            currentPage = 0;
+        }
+        page = pages[currentPage];
+        page.SetActive (true);
+    }
 }
