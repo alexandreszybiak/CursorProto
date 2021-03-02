@@ -48,7 +48,8 @@ public class Cursor : MonoBehaviour
             transform.Translate (new Vector3 (movement.x, movement.y, 0) * speed * Time.deltaTime);
         }
 
-        
+        transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+
     }
 
     private void FindNearestNeighbour(InputAction.CallbackContext context) {
