@@ -54,7 +54,9 @@ public class Cursor : MonoBehaviour
     private void FindNearestNeighbour(InputAction.CallbackContext context) {
         Vector2 direction = context.ReadValue<Vector2> ();
 
-        print (direction);
+#if UNITY_WEBGL
+        direction.y *= -1;
+#endif
 
         RaycastHit2D[] hits = new RaycastHit2D[2];
 
