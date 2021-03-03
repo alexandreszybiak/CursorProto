@@ -47,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 16
   initialTarget: {fileID: 0}
-  snap: 0
+  snap: 1
   filter2D:
     useTriggers: 0
     useLayerMask: 0

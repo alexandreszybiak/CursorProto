@@ -30,6 +30,11 @@ public class Cursor : MonoBehaviour
         else {
         targetPosition = Vector2.zero;
         }
+
+        if (snap)
+        {
+            LookAroundForSnap();
+        }
     }
 
     private void Update() {
@@ -84,7 +89,6 @@ public class Cursor : MonoBehaviour
 
         int totalObjectsHit = Physics2D.Raycast (startPosition, direction, filter2D, hits);
         RaycastHit2D hit;
-        print ("Hits found = " + totalObjectsHit);
         //Iterate the objects hit by the laser
         for ( int i = 0; i < totalObjectsHit; i++ ) {
             hit = hits[i];
