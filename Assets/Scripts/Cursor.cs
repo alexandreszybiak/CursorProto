@@ -11,6 +11,7 @@ public class Cursor : MonoBehaviour
     public Transform initialTarget;
     public bool snap = false;
     public ContactFilter2D filter2D;
+    public Transform cursorImageTransform;
 
     private Vector2 movement;
     private Vector2 targetPosition;
@@ -41,6 +42,7 @@ public class Cursor : MonoBehaviour
         if ( snap ) {
             float step = speed * Time.deltaTime;
             transform.position = Vector2.MoveTowards (transform.position, targetPosition, step);
+            cursorImageTransform.position = transform.position + new Vector3(movement.x * 0.15f, movement.y * 0.15f, 0);
         }
         else {
             transform.Translate (new Vector3 (movement.x, movement.y, 0) * speed * Time.deltaTime);
@@ -58,6 +60,8 @@ public class Cursor : MonoBehaviour
             currentItem = item;
             item.Focus (true);
         }
+
+        
 
     }
     public void ToggleSnap() {
