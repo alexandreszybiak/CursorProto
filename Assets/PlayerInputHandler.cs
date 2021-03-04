@@ -33,8 +33,8 @@ public class PlayerInputHandler :MonoBehaviour {
         }
     }
 
-    public void GoToNextPage() {
-        if ( cursor != null ) {
+    public void GoToNextPage(CallbackContext context) {
+        if ( context.performed && cursor != null ) {
             cursor.GotoNextPage ();
         }
     }

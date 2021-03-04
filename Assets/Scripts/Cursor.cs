@@ -46,7 +46,7 @@ public class Cursor : MonoBehaviour
             transform.Translate (new Vector3 (movement.x, movement.y, 0) * speed * Time.deltaTime);
         }
 
-        transform.position = new Vector3(transform.position.x, transform.position.y, -2);
+        transform.position = new Vector3(transform.position.x, transform.position.y, playerIndex - 6);
 
         currentItem = null;
         Collider2D[] results = new Collider2D[2];

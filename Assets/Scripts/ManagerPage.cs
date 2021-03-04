@@ -5,7 +5,7 @@ using UnityEngine;
 public class ManagerPage : MonoBehaviour
 {
     public GameObject[] pages;
-    [Range(0, 1)]
+    [Range(0, 2)]
     public int currentPage = 0;
     void Start()
     {
