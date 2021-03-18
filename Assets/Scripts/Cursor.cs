@@ -12,6 +12,9 @@ public class Cursor : MonoBehaviour
     public bool snap = false;
     public ContactFilter2D filter2D;
     public Transform cursorImageTransform;
+    public Emote emote;
+    public Transform stickerSpawner;
+    public bool isMaster = false;
 
     private Vector2 movement;
     private Vector2 targetPosition;
@@ -99,7 +102,8 @@ public class Cursor : MonoBehaviour
             //Do something
             if ( hit.collider != null ) {
                 if(hit.collider.gameObject.GetComponent<FocusableItem>() != currentItem || ignoreCurrentItem == false) {
-                    targetPosition = new Vector2 (hit.transform.position.x, hit.transform.position.y);
+                    Transform pos = hit.collider.gameObject.GetComponent<FocusableItem>().cursorPoints[playerIndex];
+                    targetPosition = new Vector2 (pos.position.x, pos.position.y);
                     break;
                 }
             }
@@ -130,8 +134,13 @@ public class Cursor : MonoBehaviour
     }
 
     public void GotoNextPage() {
-        if(managerPage != null ) {
+        if(managerPage != null && isMaster ) {
             managerPage.GotoNextPage ();
         }
+    }
+
+    public void PlaceSticker()
+    {
+        emote.transform.position = transform.position;
     }
 }

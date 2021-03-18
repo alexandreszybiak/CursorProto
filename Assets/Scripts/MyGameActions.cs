@@ -49,6 +49,14 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Emote"",
+                    ""type"": ""Button"",
+                    ""id"": ""05806471-e3d2-441c-a7ae-61b282b3122f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -137,6 +145,17 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Validate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce41e73c-0209-421b-ae63-68357a36fdb5"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Emote"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -448,6 +467,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
         m_Player_MoveSnap = m_Player.FindAction("MoveSnap", throwIfNotFound: true);
         m_Player_ToggleSnap = m_Player.FindAction("ToggleSnap", throwIfNotFound: true);
         m_Player_Validate = m_Player.FindAction("Validate", throwIfNotFound: true);
+        m_Player_Emote = m_Player.FindAction("Emote", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -513,6 +533,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_MoveSnap;
     private readonly InputAction m_Player_ToggleSnap;
     private readonly InputAction m_Player_Validate;
+    private readonly InputAction m_Player_Emote;
     public struct PlayerActions
     {
         private @MyGameActions m_Wrapper;
@@ -521,6 +542,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
         public InputAction @MoveSnap => m_Wrapper.m_Player_MoveSnap;
         public InputAction @ToggleSnap => m_Wrapper.m_Player_ToggleSnap;
         public InputAction @Validate => m_Wrapper.m_Player_Validate;
+        public InputAction @Emote => m_Wrapper.m_Player_Emote;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -542,6 +564,9 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                 @Validate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnValidate;
                 @Validate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnValidate;
                 @Validate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnValidate;
+                @Emote.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEmote;
+                @Emote.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEmote;
+                @Emote.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnEmote;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -558,6 +583,9 @@ public class @MyGameActions : IInputActionCollection, IDisposable
                 @Validate.started += instance.OnValidate;
                 @Validate.performed += instance.OnValidate;
                 @Validate.canceled += instance.OnValidate;
+                @Emote.started += instance.OnEmote;
+                @Emote.performed += instance.OnEmote;
+                @Emote.canceled += instance.OnEmote;
             }
         }
     }
@@ -673,6 +701,7 @@ public class @MyGameActions : IInputActionCollection, IDisposable
         void OnMoveSnap(InputAction.CallbackContext context);
         void OnToggleSnap(InputAction.CallbackContext context);
         void OnValidate(InputAction.CallbackContext context);
+        void OnEmote(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

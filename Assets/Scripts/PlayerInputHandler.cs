@@ -43,4 +43,12 @@ public class PlayerInputHandler :MonoBehaviour {
             cursor.FindNearestNeighbour (context.ReadValue<Vector2> (), true);
         }
     }
+
+    public void PlaceSticker(CallbackContext context)
+    {
+        if (context.performed)
+        {
+            cursor.PlaceSticker();
+        }
+    }
 }

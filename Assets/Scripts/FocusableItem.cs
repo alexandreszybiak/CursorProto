@@ -6,6 +6,7 @@ public class FocusableItem : MonoBehaviour
 {
     // Start is called before the first frame update
     public GameObject stroke;
+    public Transform[] cursorPoints;
 
     void Start()
     {
