@@ -141,6 +141,7 @@ public class Cursor : MonoBehaviour
 
     public void PlaceSticker()
     {
-        emote.transform.position = transform.position;
+        emote.transform.position = stickerSpawner.transform.position;
+        emote.transform.parent = managerPage.pages[managerPage.currentPage].transform;
     }
 }
