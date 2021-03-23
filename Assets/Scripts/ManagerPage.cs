@@ -7,6 +7,9 @@ public class ManagerPage : MonoBehaviour
     public GameObject[] pages;
     [Range(0, 2)]
     public int currentPage = 0;
+    public Transform stickerLayer;
+
+
     void Start()
     {
         
@@ -46,5 +49,11 @@ public class ManagerPage : MonoBehaviour
         cursor.SetActive(false);
         cursor.SetActive(true);
         cursor.GetComponent<Cursor>().LookAroundForSnap();
+
+        foreach(Transform sticker in stickerLayer){
+            sticker.position = new Vector3(-100,0,0);
+        }
+
+
     }
 }

@@ -108,21 +108,6 @@ public class Cursor : MonoBehaviour
                 }
             }
         }
-        /*
-        int numResults = 2;
-        ContactFilter2D = new ContactFilter2D ();
-        RaycastHit2D[] results;
-        RaycastHit2D hit = Physics2D.Raycast (startPosition, direction, Mathf.Infinity, );
-        if ( hit.collider != null) {
-            if(currentItem != null) print (currentItem.name);
-            if(hit.collider != currentItem) {
-                targetPosition = new Vector2(hit.transform.position.x,hit.transform.position.y);
-            }
-        }
-
-        Debug.DrawRay (new Vector2 (transform.position.x, transform.position.y), Vector2.left, Color.red, 0.5f);
-        */
-
     }
 
     public void SetInputVector(Vector2 direction) {
@@ -142,6 +127,5 @@ public class Cursor : MonoBehaviour
     public void PlaceSticker()
     {
         emote.transform.position = stickerSpawner.transform.position;
-        emote.transform.parent = managerPage.pages[managerPage.currentPage].transform;
     }
 }
