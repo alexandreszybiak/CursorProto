@@ -33,4 +33,13 @@ public class FocusableItem : MonoBehaviour
     public void Focus(bool value) {
         stroke.SetActive (value);
     }
+
+    public bool GetFocus(){
+        if( stroke.activeSelf ) {
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

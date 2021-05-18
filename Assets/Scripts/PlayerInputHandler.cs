@@ -40,7 +40,10 @@ public class PlayerInputHandler :MonoBehaviour {
     }
     public void MoveGrid(CallbackContext context) {
         if ( context.performed ) {
-            cursor.FindNearestNeighbour (context.ReadValue<Vector2> (), true);
+            bool result = cursor.FindNearestNeighbour (context.ReadValue<Vector2> (), true);
+            if ( result == false ) {
+                cursor.snap = false;
+            }
         }
     }
 

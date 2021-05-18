@@ -53,17 +53,25 @@ public class Cursor : MonoBehaviour
 
         transform.position = new Vector3(transform.position.x, transform.position.y, playerIndex - 6);
 
-        currentItem = null;
+        
         Collider2D[] results = new Collider2D[2];
 
         int numResult = Physics2D.OverlapPoint (new Vector2 (transform.position.x, transform.position.y), filter2D, results);
         
         if ( numResult > 0 ) {
             FocusableItem item = results[0].gameObject.GetComponent<FocusableItem>();
+            
+            if ( item != currentItem ){
+                snap = true;
+                Transform pos = item.cursorPoints[playerIndex];
+                targetPosition = new Vector2 (pos.position.x, pos.position.y);
+            }
             currentItem = item;
             item.Focus (true);
         }
-
+        else if (currentItem != null) {
+            currentItem = null;
+        }
         
 
     }
@@ -83,7 +91,7 @@ public class Cursor : MonoBehaviour
         FindNearestNeighbour (Vector2.right + Vector2.up);
         FindNearestNeighbour (Vector2.right + Vector2.down);
     }
-    public void FindNearestNeighbour(Vector2 inputDirection, bool ignoreCurrentItem = false) {
+    public bool FindNearestNeighbour(Vector2 inputDirection, bool ignoreCurrentItem = false) {
         Vector2 direction = inputDirection;
 
 #if UNITY_WEBGL
@@ -104,10 +112,11 @@ public class Cursor : MonoBehaviour
                 if(hit.collider.gameObject.GetComponent<FocusableItem>() != currentItem || ignoreCurrentItem == false) {
                     Transform pos = hit.collider.gameObject.GetComponent<FocusableItem>().cursorPoints[playerIndex];
                     targetPosition = new Vector2 (pos.position.x, pos.position.y);
-                    break;
+                    return true;
                 }
             }
         }
+        return false;
     }
 
     public void SetInputVector(Vector2 direction) {
@@ -119,6 +128,7 @@ public class Cursor : MonoBehaviour
     }
 
     public void GotoNextPage() {
+        snap = false;
         if(managerPage != null && isMaster ) {
             managerPage.GotoNextPage ();
         }
